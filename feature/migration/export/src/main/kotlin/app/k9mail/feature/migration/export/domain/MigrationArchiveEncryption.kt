@@ -1,8 +1,8 @@
 package app.k9mail.feature.migration.export.domain
 
-import java.security.SecureRandom
 import java.io.DataInputStream
 import java.io.DataOutputStream
+import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.GCMParameterSpec

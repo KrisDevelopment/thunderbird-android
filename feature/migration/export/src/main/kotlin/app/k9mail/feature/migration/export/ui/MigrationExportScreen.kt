@@ -103,7 +103,6 @@ fun MigrationExportScreen(
             Text(it, color = MaterialTheme.colorScheme.primary)
         }
     }
-
 }
 
 @Composable

@@ -1,7 +1,7 @@
 package app.k9mail.feature.migration.export.domain
 
-import assertk.assertThat
 import assertk.assertFailure
+import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
 import javax.crypto.AEADBadTagException

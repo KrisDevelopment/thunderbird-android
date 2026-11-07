@@ -33,10 +33,19 @@ class MigrationExportViewModel(
     override fun event(event: MigrationExportContract.Event) {
         when (event) {
             is MigrationExportContract.Event.ToggleAccount -> toggleAccount(event.id)
+
             is MigrationExportContract.Event.UpdatePassphrase -> updateState { it.copy(passphrase = event.value) }
-            is MigrationExportContract.Event.UpdatePassphraseConfirm -> updateState { it.copy(passphraseConfirm = event.value) }
-            is MigrationExportContract.Event.ToggleIncludeLocalMail -> updateState { it.copy(includeLocalMail = event.value) }
+
+            is MigrationExportContract.Event.UpdatePassphraseConfirm -> updateState {
+                it.copy(passphraseConfirm = event.value)
+            }
+
+            is MigrationExportContract.Event.ToggleIncludeLocalMail -> updateState {
+                it.copy(includeLocalMail = event.value)
+            }
+
             MigrationExportContract.Event.StartExport -> startExport()
+
             is MigrationExportContract.Event.ExportToUri -> exportToUri(event.uri)
         }
     }
@@ -85,10 +94,16 @@ class MigrationExportViewModel(
                         it.copy(
                             isLoading = false,
                             statusMessage = "Exported ${result.accountCount} account(s)." +
-                                if (result.warnings.isNotEmpty()) " Warnings: ${result.warnings.joinToString()}" else "",
+                                if (result.warnings.isNotEmpty()) {
+                                    " Warnings: ${result.warnings.joinToString()}"
+                                } else {
+                                    ""
+                                },
                         )
                     }
-                } ?: updateState { it.copy(isLoading = false, errorMessage = "Could not open destination.") }
+                } ?: updateState {
+                    it.copy(isLoading = false, errorMessage = "Could not open destination.")
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {

@@ -5,8 +5,8 @@ import app.k9mail.feature.migration.export.domain.MigrationArchiveEncryption
 import app.k9mail.feature.migration.export.domain.MigrationArchiveExporter
 import app.k9mail.feature.migration.export.ui.MigrationExportContract
 import app.k9mail.feature.migration.export.ui.MigrationExportViewModel
-import net.thunderbird.core.android.account.LegacyAccountManager
 import net.thunderbird.components.core.logging.Logger
+import net.thunderbird.core.android.account.LegacyAccountManager
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module

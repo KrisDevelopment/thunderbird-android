@@ -1,20 +1,20 @@
 package app.k9mail.feature.migration.export.domain
 
 import com.fsck.k9.mail.ServerSettings
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import net.thunderbird.core.android.account.Identity
-import net.thunderbird.core.android.account.LegacyAccount
-import net.thunderbird.core.android.account.LegacyAccountManager
-import net.thunderbird.feature.account.AccountIdFactory
-import net.thunderbird.components.core.logging.Logger
 import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import net.thunderbird.components.core.logging.Logger
+import net.thunderbird.core.android.account.Identity
+import net.thunderbird.core.android.account.LegacyAccount
+import net.thunderbird.core.android.account.LegacyAccountManager
+import net.thunderbird.feature.account.AccountIdFactory
 
 interface MigrationArchiveExporter {
     /**
@@ -39,7 +39,10 @@ class DefaultMigrationArchiveExporter(
     private val accountManager: LegacyAccountManager,
     private val logger: Logger,
     private val encryption: MigrationArchiveEncryption = MigrationArchiveEncryption(),
-    private val json: Json = Json { prettyPrint = false; encodeDefaults = true },
+    private val json: Json = Json {
+        prettyPrint = false
+        encodeDefaults = true
+    },
 ) : MigrationArchiveExporter {
 
     override suspend fun export(
@@ -111,7 +114,9 @@ class DefaultMigrationArchiveExporter(
                 transferable = false,
                 notes = "Reauthorization required on Thunderbird Desktop.",
             )
-        } else null
+        } else {
+            null
+        }
 
         return MigrationServer(
             type = type,
