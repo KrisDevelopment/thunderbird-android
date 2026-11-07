@@ -24,6 +24,11 @@ out/
 *.class
 *.dex
 
+# Private migration archives/settings and generated Desktop packages
+*.tbam
+*.k9s
+*.xpi
+
 # Keystore files
 *.jks
 *.keystore

@@ -1,0 +1,4 @@
+# The Android build image only contains tooling; the project is bind-mounted at runtime.
+# Keep the build context tiny so local caches and build outputs are not sent to the daemon.
+*
+!Dockerfile.android
