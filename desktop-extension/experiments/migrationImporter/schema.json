@@ -1,0 +1,25 @@
+[
+  {
+    "namespace": "migrationImporter",
+    "functions": [
+      {
+        "name": "importArchive",
+        "type": "function",
+        "async": true,
+        "description": "Decrypts a .tbam archive from Thunderbird for Android and creates its accounts in Thunderbird Desktop.",
+        "parameters": [
+          {
+            "name": "base64Archive",
+            "type": "string",
+            "description": "Encrypted .tbam container, base64 encoded."
+          },
+          {
+            "name": "passphrase",
+            "type": "string",
+            "description": "Passphrase chosen when the archive was exported."
+          }
+        ]
+      }
+    ]
+  }
+]
