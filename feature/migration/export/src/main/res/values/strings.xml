@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="migration_export_desktop_title">Export for Thunderbird Desktop</string>
+</resources>

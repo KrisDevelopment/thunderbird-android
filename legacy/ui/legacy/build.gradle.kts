@@ -35,6 +35,7 @@ dependencies {
     implementation(projects.feature.funding.api)
     implementation(projects.feature.search.implLegacy)
     implementation(projects.feature.settings.import)
+    implementation(projects.feature.migration.export)
     implementation(projects.feature.telemetry.api)
     implementation(projects.feature.mail.message.list.api)
     implementation(projects.feature.mail.message.composer.api)

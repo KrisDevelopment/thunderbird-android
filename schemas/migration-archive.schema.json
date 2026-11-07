@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thunderbird.net/schemas/migration-archive-1.json",
+  "title": "Thunderbird Android to Desktop Migration Archive (inner JSON)",
+  "type": "object",
+  "required": ["format", "version", "createdAtUtc", "accounts"],
+  "properties": {
+    "format": { "const": "thunderbird-android-to-desktop" },
+    "version": { "const": 1 },
+    "createdAtUtc": { "type": "string", "format": "date-time" },
+    "sourceApp": { "type": "string" },
+    "sourceVersion": { "type": ["string", "null"] },
+    "accounts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/MigrationAccount" }
+    },
+    "globalSettings": { "type": "object", "additionalProperties": { "type": "string" } },
+    "certificates": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/MigrationCertificate" }
+    },
+    "metadata": { "type": "object", "additionalProperties": { "type": "string" } }
+  },
+  "$defs": {
+    "MigrationAccount": {
+      "type": "object",
+      "required": ["id", "email", "incomingServer", "outgoingServer"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": ["string", "null"] },
+        "email": { "type": "string", "format": "email" },
+        "incomingServer": { "$ref": "#/$defs/MigrationServer" },
+        "outgoingServer": { "$ref": "#/$defs/MigrationServer" },
+        "identities": { "type": "array", "items": { "$ref": "#/$defs/MigrationIdentity" } },
+        "settings": { "type": "object", "additionalProperties": { "type": "string" } },
+        "folderSettings": { "type": "array", "items": { "$ref": "#/$defs/MigrationFolder" } },
+        "avatarImageBase64": { "type": ["string", "null"] },
+        "oAuthState": { "const": null, "description": "Serialized Android OAuth state is never exported." }
+      }
+    },
+    "MigrationServer": {
+      "type": "object",
+      "required": ["type", "host", "port", "connectionSecurity", "authenticationType", "username"],
+      "properties": {
+        "type": { "type": "string" },
+        "host": { "type": "string" },
+        "port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+        "connectionSecurity": { "type": "string" },
+        "authenticationType": { "type": "string" },
+        "username": { "type": "string" },
+        "password": { "type": ["string", "null"] },
+        "clientCertificateAlias": { "type": ["string", "null"] },
+        "extra": { "type": "object", "additionalProperties": { "type": ["string", "null"] } },
+        "oauth": { "anyOf": [{ "$ref": "#/$defs/MigrationOAuth" }, { "type": "null" }] }
+      }
+    },
+    "MigrationOAuth": {
+      "type": "object",
+      "properties": {
+        "provider": { "type": ["string", "null"] },
+        "clientId": { "const": null },
+        "refreshToken": { "const": null },
+        "accessToken": { "const": null },
+        "expiresAt": { "type": ["integer", "null"] },
+        "scopes": { "type": "array", "items": { "type": "string" } },
+        "transferable": { "const": false },
+        "notes": { "type": ["string", "null"] }
+      }
+    },
+    "MigrationIdentity": {
+      "type": "object",
+      "properties": {
+        "name": { "type": ["string", "null"] },
+        "email": { "type": ["string", "null"] },
+        "description": { "type": ["string", "null"] },
+        "signature": { "type": ["string", "null"] },
+        "signatureUse": { "type": "boolean" },
+        "signatureIsHtml": { "type": "boolean" },
+        "replyTo": { "type": ["string", "null"] },
+        "settings": { "type": "object", "additionalProperties": { "type": "string" } }
+      }
+    },
+    "MigrationFolder": {
+      "type": "object",
+      "required": ["serverId"],
+      "properties": {
+        "serverId": { "type": "string" },
+        "integrate": { "type": "boolean" },
+        "inTopGroup": { "type": "boolean" },
+        "syncEnabled": { "type": "boolean" },
+        "visible": { "type": "boolean" },
+        "notificationsEnabled": { "type": "boolean" },
+        "pushEnabled": { "type": "boolean" }
+      }
+    },
+    "MigrationCertificate": {
+      "type": "object",
+      "required": ["alias", "type", "encodedBase64"],
+      "properties": {
+        "alias": { "type": "string" },
+        "type": { "type": "string" },
+        "encodedBase64": { "type": "string" },
+        "transferable": { "type": "boolean" }
+      }
+    }
+  }
+}

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.k9mail.core.ui.legacy.designsystem.atom.icon.Icons
 import app.k9mail.feature.launcher.FeatureLauncherActivity
 import app.k9mail.feature.launcher.FeatureLauncherTarget
+import app.k9mail.feature.migration.export.ui.MigrationExportActivity
 import com.fsck.k9.ui.R
 import com.fsck.k9.ui.base.livedata.observeNotNull
 import com.fsck.k9.ui.settings.account.AccountSettingsActivity
@@ -34,6 +35,7 @@ import net.thunderbird.feature.funding.api.FundingManager
 import net.thunderbird.feature.funding.api.FundingType
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import app.k9mail.feature.migration.export.R as MigrationExportR
 import app.k9mail.feature.settings.importing.R as SettingsImportR
 
 class SettingsListFragment : Fragment(), ItemTouchCallback {
@@ -122,6 +124,12 @@ class SettingsListFragment : Fragment(), ItemTouchCallback {
                     text = getString(SettingsImportR.string.settings_import_title),
                     navigationAction = R.id.action_settingsListScreen_to_settingsImportScreen,
                     icon = Icons.Outlined.Download,
+                )
+
+                addIntent(
+                    text = getString(MigrationExportR.string.migration_export_desktop_title),
+                    icon = Icons.Outlined.Monitor,
+                    intent = Intent(requireContext(), MigrationExportActivity::class.java),
                 )
             }
 
