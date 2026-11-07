@@ -51,22 +51,23 @@ class MigrationExportViewModel(
 
     private fun startExport() {
         val state = state.value
-        if (state.selectedAccountIds.isEmpty()) {
-            updateState { it.copy(errorMessage = "Select at least one account.") }
-            return
+        val errorMessage = when {
+            state.selectedAccountIds.isEmpty() -> "Select at least one account."
+            state.passphrase.length < MIN_PASSPHRASE_LENGTH -> "Passphrase must be at least 8 characters."
+            state.passphrase != state.passphraseConfirm -> "Passphrases do not match."
+            else -> null
         }
-        if (state.passphrase.length < 8) {
-            updateState { it.copy(errorMessage = "Passphrase must be at least 8 characters.") }
-            return
-        }
-        if (state.passphrase != state.passphraseConfirm) {
-            updateState { it.copy(errorMessage = "Passphrases do not match.") }
+        if (errorMessage != null) {
+            updateState { it.copy(errorMessage = errorMessage) }
             return
         }
         updateState { it.copy(errorMessage = null, statusMessage = null) }
         emitEffect(MigrationExportContract.Effect.LaunchSaveDialog("thunderbird-migration.tbam"))
     }
 
+    // SAF/account providers can throw different exception types. Display a sanitized failure rather
+    // than exposing private exception messages or logging credential-bearing data.
+    @Suppress("TooGenericExceptionCaught", "SwallowedException")
     private fun exportToUri(uri: Uri) {
         val state = state.value
         val passphrase = state.passphrase.toCharArray()
@@ -99,5 +100,9 @@ class MigrationExportViewModel(
                 updateState { it.copy(passphrase = "", passphraseConfirm = "") }
             }
         }
+    }
+
+    private companion object {
+        const val MIN_PASSPHRASE_LENGTH = 8
     }
 }

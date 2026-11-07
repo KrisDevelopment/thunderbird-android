@@ -30,7 +30,7 @@ import net.thunderbird.core.ui.contract.mvi.observe
 @Composable
 fun MigrationExportScreen(
     viewModel: MigrationExportContract.ViewModel,
-    onNavigateBack: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val dispatchRef = androidx.compose.runtime.remember {
         androidx.compose.runtime.mutableStateOf<((MigrationExportContract.Event) -> Unit)?>(null)
@@ -52,7 +52,7 @@ fun MigrationExportScreen(
         dispatchRef.value = dispatch
     }
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(16.dp),
@@ -84,21 +84,7 @@ fun MigrationExportScreen(
         }
 
         Spacer(Modifier.height(16.dp))
-        OutlinedTextField(
-            value = state.value.passphrase,
-            onValueChange = { dispatch(MigrationExportContract.Event.UpdatePassphrase(it)) },
-            label = { Text("Passphrase") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth(),
-        )
-        Spacer(Modifier.height(8.dp))
-        OutlinedTextField(
-            value = state.value.passphraseConfirm,
-            onValueChange = { dispatch(MigrationExportContract.Event.UpdatePassphraseConfirm(it)) },
-            label = { Text("Confirm passphrase") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth(),
-        )
+        PassphraseFields(state = state.value, dispatch = dispatch)
 
         Spacer(Modifier.height(16.dp))
         if (state.value.isLoading) {
@@ -118,4 +104,29 @@ fun MigrationExportScreen(
         }
     }
 
+}
+
+@Composable
+private fun PassphraseFields(
+    state: MigrationExportContract.State,
+    dispatch: (MigrationExportContract.Event) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier) {
+        OutlinedTextField(
+            value = state.passphrase,
+            onValueChange = { dispatch(MigrationExportContract.Event.UpdatePassphrase(it)) },
+            label = { Text("Passphrase") },
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier.fillMaxWidth(),
+        )
+        Spacer(Modifier.height(8.dp))
+        OutlinedTextField(
+            value = state.passphraseConfirm,
+            onValueChange = { dispatch(MigrationExportContract.Event.UpdatePassphraseConfirm(it)) },
+            label = { Text("Confirm passphrase") },
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
 }

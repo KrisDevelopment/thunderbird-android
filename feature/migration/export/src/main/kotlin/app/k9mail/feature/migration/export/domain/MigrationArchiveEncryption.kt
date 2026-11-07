@@ -1,6 +1,8 @@
 package app.k9mail.feature.migration.export.domain
 
 import java.security.SecureRandom
+import java.io.DataInputStream
+import java.io.DataOutputStream
 import javax.crypto.Cipher
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.GCMParameterSpec
@@ -52,7 +54,7 @@ class MigrationArchiveEncryption {
         val salt = ByteArray(SALT_SIZE).also { require(input.read(it) == it.size) }
         val nonce = ByteArray(NONCE_SIZE).also { require(input.read(it) == it.size) }
         val ctLen = readInt(input)
-        require(ctLen >= TAG_SIZE_BITS / 8 && ctLen == input.available()) {
+        require(ctLen >= TAG_SIZE_BYTES && ctLen == input.available()) {
             "Invalid migration archive length"
         }
         val ciphertext = ByteArray(ctLen).also { require(input.read(it) == it.size) }
@@ -81,19 +83,11 @@ class MigrationArchiveEncryption {
         ByteArray(size).also { SecureRandom().nextBytes(it) }
 
     private fun writeInt(out: java.io.OutputStream, value: Int) {
-        out.write((value ushr 24) and 0xFF)
-        out.write((value ushr 16) and 0xFF)
-        out.write((value ushr 8) and 0xFF)
-        out.write(value and 0xFF)
+        DataOutputStream(out).writeInt(value)
     }
 
     private fun readInt(input: java.io.InputStream): Int {
-        val b = ByteArray(4)
-        require(input.read(b) == 4)
-        return ((b[0].toInt() and 0xFF) shl 24) or
-            ((b[1].toInt() and 0xFF) shl 16) or
-            ((b[2].toInt() and 0xFF) shl 8) or
-            (b[3].toInt() and 0xFF)
+        return DataInputStream(input).readInt()
     }
 
     companion object {
@@ -102,6 +96,7 @@ class MigrationArchiveEncryption {
         private const val SALT_SIZE = 16
         private const val NONCE_SIZE = 12
         private const val TAG_SIZE_BITS = 128
+        private const val TAG_SIZE_BYTES = 16
         private const val KEY_SIZE_BITS = 256
         private const val KDF_ITERATIONS = 600_000
         private const val KDF_ALGORITHM = "PBKDF2WithHmacSHA256"

@@ -11,7 +11,10 @@ import net.thunderbird.core.android.account.LegacyAccountManager
 import net.thunderbird.feature.account.AccountIdFactory
 import net.thunderbird.components.core.logging.Logger
 import java.io.OutputStream
-import java.time.Instant
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 interface MigrationArchiveExporter {
     /**
@@ -58,7 +61,9 @@ class DefaultMigrationArchiveExporter(
         }
 
         val archive = MigrationArchive(
-            createdAtUtc = Instant.now().toString(),
+            createdAtUtc = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ROOT).apply {
+                timeZone = TimeZone.getTimeZone("UTC")
+            }.format(Date()),
             accounts = accounts,
         )
 

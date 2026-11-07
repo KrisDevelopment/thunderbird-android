@@ -15,7 +15,7 @@ class MigrationExportActivity : ComponentActivity() {
         setContent {
             MaterialTheme {
                 Surface {
-                    MigrationExportScreen(viewModel = viewModel, onNavigateBack = { finish() })
+                    MigrationExportScreen(viewModel = viewModel)
                 }
             }
         }
