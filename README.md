@@ -1,5 +1,18 @@
 # Thunderbird for Android
 
+## Experimental Android → Desktop account migration (this fork)
+
+This fork includes a passphrase-encrypted `.tbam` account exporter for Android and a Thunderbird Desktop
+Experiment API importer. No Desktop fork is required. OAuth accounts sign in again on Desktop; address books
+and local messages are not migrated.
+
+- [Build, install, export and import](docs/engineering/migration-howto.md)
+- [Architecture, privacy and known limitations](docs/engineering/migration-android-to-desktop.md)
+- [Copy-paste OpenCode prompts](docs/engineering/migration-howto.md#copy-paste-opencode-prompts)
+
+**Experimental, AI-assisted fork feature—not an upstream-ready contribution.** The Android module's
+API/internal split and design-system UI adoption remain outstanding. Review the verification record before use.
+
 <a href="https://play.google.com/store/apps/details?id=net.thunderbird.android&referrer=utm_campaign%3Dandroid_metadata%26utm_medium%3Dweb%26utm_source%3Dgithub.com%26utm_content%3Dbadge" target="_blank"><img src="./docs/assets/get-it-on-play.png" alt="Get it on Google Play" height="28"></a>
 <a href="https://f-droid.org/packages/net.thunderbird.android"><img src="./docs/assets/get-it-on-fdroid.png" alt="Get it on F-Droid" height="28"></a>
 <a href="https://apps.obtainium.imranr.dev/"><img src="./docs/assets/get-it-on-obtainium.png" alt="Get it on Obtainium" height="28"></a>
